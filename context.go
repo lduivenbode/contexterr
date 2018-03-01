@@ -5,11 +5,20 @@ type ContextError struct {
 	fields  Fields
 }
 
-func Errorf(message string, fields Fields) ContextError {
+func New(message string, fields Fields) ContextError {
 	e := ContextError{}
 	e.message = message
 	e.fields = fields
 	return e
+}
+
+func From(ce ContextError, fields Fields) {
+	e := ContextError{}
+	e.message = ce.message
+	e.fields = ce.fields
+	for k, v := range fields {
+		e.fields[k] = v
+	}
 }
 
 func (e ContextError) Error() string {
